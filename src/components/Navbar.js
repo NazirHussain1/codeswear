@@ -55,7 +55,7 @@ const toggleCart = () => {
       </div>
       <div
         ref={ref}
-       className="w-62 h-full sideCart absolute top-0 right-0 bg-pink-100 px-8 py-10 transform transition-transform duration-300 translate-x-full"
+       className="w-64 h-full sideCart absolute top-0 right-0 bg-pink-100 px-8 py-10 transform transition-transform duration-300 translate-x-full"
 
       >
         <h2 className="font-bold text-xl text-center">Shopping Cart</h2>
@@ -68,23 +68,29 @@ const toggleCart = () => {
         </span>
        
         <ol className="list-decimal font-semibold">
-         { Object.keys(cart)==0 &&<div className="my-3 font-normal">
-          No item in the cart
-         </div>}
-         {Object.keys(cart).map((k)=>{
-          return 
-           <li>
-            <div className="item flex my-5">
-              <div className="w-2/3 font-semibold">Tshirt - Wear the code</div>
-              <div className="flex font-semibold items-center justify-center w-1/3 text-lg">
-                {" "}
-                <AiFillMinusCircle className="cursor-pointer text-pink-500" />{" "}
-                <span className="mx-2 text-sm">1</span>
-                <AiFillPlusCircle className="cursor-pointer text-pink-500" />{" "}
-              </div>
-            </div>
-          </li>
-         })}
+        {Object.keys(cart).length === 0 && (
+    <div className="my-3 font-bold">No item in the cart</div>
+  )}
+        {Object.keys(cart).map((k) => {
+  return (
+    <li key={k}>
+      <div className="item flex my-5">
+        <div className="w-2/3 font-semibold">{cart[k].name}</div>
+        <div className="flex font-semibold items-center justify-center w-1/3 text-lg">
+          <AiFillMinusCircle
+            onClick={() => removeFromCart(k, 1, cart[k].price, cart[k].name, cart[k].size, cart[k].varient)}
+            className="cursor-pointer text-pink-500"
+          />
+          <span className="mx-2 text-sm">{cart[k].qty}</span>
+          <AiFillPlusCircle
+            onClick={() => addToCart(k, 1, cart[k].price, cart[k].name, cart[k].size, cart[k].varient)}
+            className="cursor-pointer text-pink-500"
+          />
+        </div>
+      </div>
+    </li>
+  );
+})}
                    
         </ol>
        <div className="flex">
