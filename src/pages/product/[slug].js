@@ -43,14 +43,14 @@ export default function Post({ addToCart }) {
   return (
     <>
       <section className="text-gray-600 body-font overflow-hidden">
-        <div className="container px-5 py-14 mx-auto">
-          <div className="lg:w-4/5 mx-auto flex flex-wrap">
+        <div className="container px-4 py-8 mx-auto">
+          <div className="lg:w-4/5  flex flex-wrap">
             <img
               alt="ecommerce"
               className="lg:w-1/2 w-full lg:h-auto px-24 object-cover object-top rounded"
               src="https://m.media-amazon.com/images/I/81YtgFYwxAL._AC_SX466_.jpg"
             />
-            <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
+            <div className="lg:w-1/2 w-full lg:pl-8 lg:py-6 mt-6 lg:mt-0">
               <h2 className="text-sm title-font text-gray-500 tracking-widest">CODES WEAR</h2>
               <h1 className="text-gray-900 text-3xl title-font font-medium mb-1">Wear the code</h1>
 
@@ -127,7 +127,7 @@ export default function Post({ addToCart }) {
               <div className="flex">
                 <span className="title-font font-medium text-2xl text-gray-900">RS.5999.00</span>
 
-                <button className="flex ml-6 text-white bg-pink-500 border-0 md:py-2 px-2 md:px-6 focus:outline-none hover:bg-pink-600 rounded">
+                <button className="flex ml-4 text-white bg-pink-500 border-0 md:py-2 px-2 md:px-6 focus:outline-none hover:bg-pink-600 rounded">
                   Buy Now
                 </button>
 
