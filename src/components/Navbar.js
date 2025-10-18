@@ -25,7 +25,7 @@ const toggleCart = () => {
 
  
   return (
-    <div className="flex flex-col md:flex-row md:justify-start justify-center items-center shadow-md ">
+    <div className="flex flex-col md:flex-row md:justify-start justify-center items-center shadow-md top-0 bg-white sticky z-10 ">
       <div className="logo mx-5">
         <Link href="/">
           <Image src="/code.png" alt="logo Image" width={100} height={20} />
@@ -55,9 +55,8 @@ const toggleCart = () => {
       </div>
       <div
         ref={ref}
-       className="w-64 h-full sideCart absolute top-0 right-0 bg-pink-100 px-8 py-10 transform transition-transform duration-300 translate-x-full"
-
-      >
+       className={`w-64 h-[100] sideCart absolute top-0 right-0 bg-pink-100 
+       px-8 py-10 transform transition-transform duration-300 ${Object.keys(cart).length!==0 ? 'translate-x-0' : 'translate-x-full'}`}>
         <h2 className="font-bold text-xl text-center">Shopping Cart</h2>
 
         <span
@@ -93,10 +92,11 @@ const toggleCart = () => {
 })}
                    
         </ol>
+         <div className="font-bold mt-2">SubTotal:Rs.{subTotal}</div>
        <div className="flex">
-         <button className="flex mr-1 mt-1 text-white bg-pink-500 border-0 py-2 px-4 focus:outline-none hover:bg-pink-600 rounded text-lg">
+         <Link href="/checkout"><button className="flex mr-1 mt-1 text-white bg-pink-500 border-0 py-2 px-4 focus:outline-none hover:bg-pink-600 rounded text-lg">
         <IoBagCheckSharp  className="m-1"/>                   
-        CheckOut</button>
+        CheckOut</button></Link> 
          <button className="flex mr-2 mt-1 text-white bg-pink-500 border-0 py-2 px-4 focus:outline-none hover:bg-pink-600 rounded text-lg">
                          
         AddtoCart</button>
