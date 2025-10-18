@@ -97,9 +97,9 @@ const toggleCart = () => {
          <Link href="/checkout"><button className="flex mr-1 mt-1 text-white bg-pink-500 border-0 py-2 px-4 focus:outline-none hover:bg-pink-600 rounded text-lg">
         <IoBagCheckSharp  className="m-1"/>                   
         CheckOut</button></Link> 
-         <button className="flex mr-2 mt-1 text-white bg-pink-500 border-0 py-2 px-4 focus:outline-none hover:bg-pink-600 rounded text-lg">
+         <button onClick={clearCart} className="flex mr-2 mt-1 text-white bg-pink-500 border-0 py-2 px-4 focus:outline-none hover:bg-pink-600 rounded text-lg">
                          
-        AddtoCart</button>
+        ClearCart</button>
        </div>
       </div>
     </div>
