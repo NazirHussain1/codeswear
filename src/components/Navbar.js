@@ -2,6 +2,7 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRef } from "react";
+import { MdAccountCircle } from "react-icons/md";
 import { IoCartOutline } from "react-icons/io5";
 import {
   AiFillCloseCircle,
@@ -48,10 +49,12 @@ const toggleCart = () => {
         </ul>
       </div>
       <div
-        onClick={toggleCart}
-        className="cursor-pointer cart right-0 absolute mx-5 mt-4"
+       
+        className="cursor-pointer cart right-0 absolute mx-5 mt-4 flex"
       >
-        <IoCartOutline className=" text-xl md:text-3xl " />
+      <Link href={"/login"}> <MdAccountCircle className=" text-xl md:text-3xl mx-2 " /></Link>
+        <IoCartOutline  onClick={toggleCart} className=" text-xl md:text-3xl " />
+       
       </div>
       <div
         ref={ref}

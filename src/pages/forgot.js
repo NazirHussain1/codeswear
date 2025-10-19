@@ -1,6 +1,6 @@
 import React from 'react';
 
-const login = () => {
+const Forgot = () => {
   return (
     <div>
     <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
@@ -21,14 +21,13 @@ const login = () => {
       <div>
         <div className="flex items-center justify-between">
           <label for="password" className="block text-sm/6 font-medium text-gray-900">Password</label>
-          
+          <div className="text-sm">
+            <a href="#" className="font-semibold text-pink-600 hover:text-pink-500">Forgot password?</a>
+          </div>
         </div>
         <div className="mt-2">
           <input id="password" type="password" name="password" required autocomplete="current-password" className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-pink-600 sm:text-sm/6" />
         </div>
-        <div className="text-sm">
-            <a href="/f" className="font-semibold text-pink-600 hover:text-pink-500">Forgot password?</a>
-          </div>
       </div>
 
       <div>
@@ -46,4 +45,4 @@ const login = () => {
   )
 }
 
-export default login;
+export default Forgot;
