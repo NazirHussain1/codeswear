@@ -1,10 +1,9 @@
 import mongoose from 'mongoose';
 
-let isConnected = false; // Track the connection
+let isConnected = false; 
 
 export async function connectDB() {
   if (isConnected) {
-    // Already connected
     console.log('✅ MongoDB already connected');
     return;
   }
