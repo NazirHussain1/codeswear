@@ -34,16 +34,16 @@ const toggleCart = () => {
       </div>
       <div className="nav">
         <ul className="flex space-x-6 font-bold items-center md:text-xl">
-          <li>
+          <li className="text-gray-600 hover:text-pink-700">
             <Link href="/tshirt">T-Shirts</Link>
           </li>
-          <li>
+         <li className="text-gray-600 hover:text-pink-700">
             <Link href="/mugs">Mugs</Link>
           </li>
-          <li>
+         <li className="text-gray-600 hover:text-pink-700">
             <Link href="/stickers">Stickers</Link>
           </li>
-          <li>
+         <li className="text-gray-600 hover:text-pink-700">
             <Link href="/hoodies">Hoodies</Link>
           </li>
         </ul>
