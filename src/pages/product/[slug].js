@@ -1,7 +1,42 @@
 import { useRouter } from "next/router";
 import { useState } from "react";
+import product from "@/models/product";
+import { connectDB } from "@/lib/db";
+export async function getServerSideProps(context) {
+  const { slug } = context.params;
 
-export default function Post({ addToCart }) {
+  await connectDB();
+
+  const product = await Product.findOne({ slug }).lean();
+
+  if (!product) {
+    return { notFound: true };
+  }
+
+  const variants = await Product.find({ title: product.title }).lean();
+
+  // Build color-size map
+  let colorSizeSlug = {};
+  for (let item of variants) {
+    if (colorSizeSlug[item.color]) {
+      colorSizeSlug[item.color][item.size] = { slug: item.slug };
+    } else {
+      colorSizeSlug[item.color] = {};
+      colorSizeSlug[item.color][item.size] = { slug: item.slug };
+    }
+  }
+
+  return {
+    props: {
+      product: JSON.parse(JSON.stringify(product)),
+      variants: JSON.parse(JSON.stringify(colorSizeSlug)),
+    },
+  };
+}
+
+
+export default function Post({ addToCart ,product,variants }) {
+  console.log(product,variants )
   const router = useRouter();
   const { slug } = router.query;
   const [Service, setService] = useState(); // undefined initially
