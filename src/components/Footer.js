@@ -10,32 +10,51 @@ const Footer = () => {
             <a className="flex title-font font-medium items-center md:justify-start justify-center text-gray-900">
               <Image src="/code.png" alt="logo Image" width={100} height={20} />
             </a>
-            <p className="mt-0 text-sm text-gray-500">
-             Wear the code
-            </p>
+            <p className="mt-0 text-sm text-gray-500">Wear the code</p>
             <p className="text-sm text-gray-500">
-             Premium T-shirt hoodies and apperals
+              Premium T-shirt hoodies and Apparel
             </p>
-            
           </div>
           <div className="flex-grow flex flex-wrap md:pl-20 -mb-10 md:mt-0 mt-10 md:text-left text-center">
             <div className="lg:w-1/4 md:w-1/2 w-full px-4">
               <h2 className="title-font font-medium text-gray-900 tracking-widest text-sm mb-3">
                 SHOP
               </h2>
-              <nav className="list-none mb-10">
-               <Link  href="/tshirt"> <li>
-                  <a className="text-gray-600 hover:text-gray-800">T-shirt</a>
-                </li></Link>
-                 <Link  href="/hoodies"> <li>
-                  <a className="text-gray-600 hover:text-gray-800">Hoodies</a>
-                </li></Link>
-                 <Link  href="/mugs"> <li>
-                  <a className="text-gray-600 hover:text-gray-800">Mugs</a>
-                </li></Link>
-                 <Link  href="/stickers"> <li>
-                  <a className="text-gray-600 hover:text-gray-800">Stickers</a>
-                </li></Link>
+              <nav>
+                <ul className="list-none mb-10 space-y-2">
+                  <li>
+                    <Link
+                      href="/tshirt"
+                      className="text-gray-600 hover:text-gray-800 transition-colors block py-1"
+                    >
+                      T-shirt
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="/hoodies"
+                      className="text-gray-600 hover:text-gray-800 transition-colors block py-1"
+                    >
+                      Hoodies
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="/mugs"
+                      className="text-gray-600 hover:text-gray-800 transition-colors block py-1"
+                    >
+                      Mugs
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="/stickers"
+                      className="text-gray-600 hover:text-gray-800 transition-colors block py-1"
+                    >
+                      Stickers
+                    </Link>
+                  </li>
+                </ul>
               </nav>
             </div>
             <div className="lg:w-1/4 md:w-1/2 w-full px-4">
@@ -44,16 +63,18 @@ const Footer = () => {
               </h2>
               <nav className="list-none mb-10">
                 <li>
-                  <a className="text-gray-600 hover:text-gray-800">First Link</a>
+                  <a className="text-gray-600 hover:text-gray-800">Apparel</a>
                 </li>
                 <li>
-                  <a className="text-gray-600 hover:text-gray-800">Second Link</a>
+                  <a className="text-gray-600 hover:text-gray-800">Fashion</a>
                 </li>
                 <li>
-                  <a className="text-gray-600 hover:text-gray-800">Third Link</a>
+                  <a className="text-gray-600 hover:text-gray-800">Hoodies</a>
                 </li>
                 <li>
-                  <a className="text-gray-600 hover:text-gray-800">Fourth Link</a>
+                  <a className="text-gray-600 hover:text-gray-800">
+                    Accessories
+                  </a>
                 </li>
               </nav>
             </div>
@@ -66,32 +87,42 @@ const Footer = () => {
                   <a className="text-gray-600 hover:text-gray-800">About Us</a>
                 </li>
                 <li>
-                  <a className="text-gray-600 hover:text-gray-800">Contact Us</a>
+                  <a className="text-gray-600 hover:text-gray-800">
+                    Contact Us
+                  </a>
                 </li>
                 <li>
                   <a className="text-gray-600 hover:text-gray-800">Careers</a>
                 </li>
                 <li>
-                  <a className="text-gray-600 hover:text-gray-800">Corporate Information</a>
+                  <a className="text-gray-600 hover:text-gray-800">
+                    Corporate Information
+                  </a>
                 </li>
               </nav>
             </div>
             <div className="lg:w-1/4 md:w-1/2 w-full px-4">
               <h2 className="title-font font-medium text-gray-900 tracking-widest text-sm mb-3">
-            CONSUMER POLICY
+                CONSUMER POLICY
               </h2>
               <nav className="list-none mb-10">
                 <li>
-                  <a className="text-gray-600 hover:text-gray-800">First Link</a>
+                  <a className="text-gray-600 hover:text-gray-800">
+                    Information Disclosure
+                  </a>
                 </li>
                 <li>
-                  <a className="text-gray-600 hover:text-gray-800">Second Link</a>
+                  <a className="text-gray-600 hover:text-gray-800">
+                    Privacy & Security
+                  </a>
                 </li>
                 <li>
-                  <a className="text-gray-600 hover:text-gray-800">Third Link</a>
+                  <a className="text-gray-600 hover:text-gray-800">
+                    Payment Security
+                  </a>
                 </li>
                 <li>
-                  <a className="text-gray-600 hover:text-gray-800">Fourth Link</a>
+                  <a className="text-gray-600 hover:text-gray-800">Marketing</a>
                 </li>
               </nav>
             </div>
@@ -100,15 +131,7 @@ const Footer = () => {
         <div className="bg-gray-100">
           <div className="container mx-auto py-4 px-5 flex flex-wrap flex-col sm:flex-row">
             <p className="text-gray-500 text-sm text-center sm:text-left">
-              © 2020 Tailblocks —
-              <a
-                href="https://twitter.com/knyttneve"
-                rel="noopener noreferrer"
-                className="text-gray-600 ml-1"
-                target="_blank"
-              >
-                @knyttneve
-              </a>
+              © 2025 Wear the Code — All Premium Stack Available
             </p>
             <span className="inline-flex sm:ml-auto sm:mt-0 mt-2 justify-center sm:justify-start">
               <a className="text-gray-500">

@@ -58,7 +58,7 @@ const toggleCart = () => {
       </div>
       <div
         ref={ref}
-       className={`w-64 h-[100] sideCart absolute top-0 right-0 bg-pink-100 
+       className={`w-72 h-[100] sideCart overflow-y-scroll absolute top-0 right-0 bg-pink-100 
        px-8 py-10 transform transition-transform duration-300 ${Object.keys(cart).length!==0 ? 'translate-x-0' : 'translate-x-full'}`}>
         <h2 className="font-bold text-xl text-center">Shopping Cart</h2>
 

@@ -113,8 +113,8 @@ const checkout = ({cart, addToCart, removeFromCart, subTotal}) => {
           )}
           {Object.keys(cart).map((k) => {
             return (
-              <li key={k}>
-                <div className="item flex my-5">
+              <li key={k}> 
+                 <div className="item flex my-5">
                   <div className="font-semibold">{cart[k].name}</div>
                   <div className="flex font-semibold items-center justify-center w-1/3 text-lg">
                     <AiFillMinusCircle

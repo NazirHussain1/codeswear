@@ -42,7 +42,7 @@ export async function getServerSideProps(context) {
   };
 }
 
-export default function Post({ addToCart, product, variants }) {
+export default function Post({ buyNow,addToCart, product, variants }) {
   console.log("Product:", product);
   console.log("Variants:", variants);
 
@@ -340,7 +340,14 @@ export default function Post({ addToCart, product, variants }) {
               </div>
 
               <div className="flex mt-1 space-x-4 ms-0">
-                <button className="flex ml-4 text-white bg-pink-500 border-0 md:py-2 px-2 md:px-6 focus:outline-none hover:bg-pink-600 rounded">
+                <button  onClick={() => {buyNow(
+                      slug,
+                      1,
+                      product.price || 5999,
+                      `${product.title} (${size}/ ${color})`,
+                      size,
+                      color
+                    );}} className="flex ml-4 text-white bg-pink-500 border-0 md:py-2 px-2 md:px-6 focus:outline-none hover:bg-pink-600 rounded">
                   Buy Now
                 </button>
 

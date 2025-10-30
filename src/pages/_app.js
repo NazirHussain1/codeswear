@@ -2,10 +2,12 @@ import "@/styles/globals.css";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 
 export default function App({ Component, pageProps }) {
   const [cart, setCart] = useState({});
   const [subTotal, setSubTotal] = useState(0);
+  const router=useRouter();
 
   useEffect(() => {
     console.log("I run on every render!");
@@ -31,15 +33,23 @@ export default function App({ Component, pageProps }) {
     setSubTotal(subt);
   };
 
-  const addToCart = (itemCode, qty,price,name, size, varient) => {
+  const addToCart = (itemCode, qty,price,name, size, variant) => {
     let newCart = { ...cart };
     if (itemCode in newCart) {
       newCart[itemCode].qty += qty;
     } else {
-      newCart[itemCode] = { qty: 1,  price, name, size, varient };
+      newCart[itemCode] = { qty: 1,  price, name, size, variant};
     }
     setCart(newCart);
     saveCart(newCart);
+  };
+  
+  const buyNow = (itemCode, qty,price,name, size, variant) => {
+    let newCart = {slug:{qty: 1,  price, name, size, variant}};
+   
+    setCart(newCart);
+    saveCart(newCart);
+    router.push('/checkout')
   };
 
   const clearCart = () => {
@@ -47,7 +57,7 @@ export default function App({ Component, pageProps }) {
     saveCart({});
   };
 
-  const removeFromCart = (itemCode, qty, price, name, size, varient) => {
+  const removeFromCart = (itemCode, qty, price, name, size, variant) => {
     let newCart = { ...cart };
     if (itemCode in newCart) {
       newCart[itemCode].qty = cart[itemCode].qty - qty;
@@ -70,6 +80,7 @@ export default function App({ Component, pageProps }) {
       />
       <Component
         cart={cart}
+        buyNow={buyNow}
         addToCart={addToCart}
         removeFromCart={removeFromCart}
         clearCart={clearCart}
