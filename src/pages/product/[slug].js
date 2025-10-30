@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import Product from "@/models/product";
 import { connectDB } from "@/lib/db";
-
+import { toast } from 'react-toastify';
 export async function getServerSideProps(context) {
   const { slug } = context.params;
 
@@ -14,7 +14,7 @@ export async function getServerSideProps(context) {
     return { notFound: true };
   }
 
-  const variants = await Product.find({ title: product.title }).lean();
+  const variants = await Product.find({ title: product.title, category:product.category}).lean();
 
     let colorSizeSlug = {};
   for (let item of variants) {
@@ -85,36 +85,44 @@ export default function Post({ buyNow,addToCart, product, variants }) {
   const [color, setColor] = useState(getInitialColor);
   const [size, setSize] = useState(getInitialSize);
 
-  const CheckService = async () => {
-    if (!pin) {
-      setService(false);
-      return;
-    }
-    const pinNum = parseInt(pin, 10);
-    if (Number.isNaN(pinNum)) {
-      setService(false);
-      return;
+ const CheckService = async () => {
+  if (!pin) {
+    setService(false);
+    return;
+  }
+  const pinNum = parseInt(pin, 10);
+  if (Number.isNaN(pinNum)) {
+    setService(false);
+    return;
+  }
+
+  try {
+    const res = await fetch("/api/pincode");
+    if (!res.ok) throw new Error(`Network error: ${res.status}`);
+    const data = await res.json();
+
+    const pinsArray = Array.isArray(data)
+      ? data
+      : Array.isArray(data.pincodes)
+      ? data.pincodes
+      : [];
+
+    const isAvailable = pinsArray.includes(pinNum);
+    setService(isAvailable);
+
+    // ✅ Sirf do messages show honge
+    if (isAvailable) {
+      toast.success('🎉 Yes! We deliver to this pincode');
+    } else {
+      toast.error('😔 Sorry! We do not deliver to this pincode');
     }
 
-    try {
-      const res = await fetch("/api/pincode");
-      if (!res.ok) throw new Error(`Network error: ${res.status}`);
-      const data = await res.json();
-
-      
-      const pinsArray = Array.isArray(data)
-        ? data
-        : Array.isArray(data.pincodes)
-        ? data.pincodes
-        : [];
-
-      setService(pinsArray.includes(pinNum));
-      console.log("available pins:", pinsArray, "checked:", pinNum);
-    } catch (error) {
-      console.error("CheckService error:", error);
-      setService(false); 
-    }
-  };
+    console.log("available pins:", pinsArray, "checked:", pinNum);
+  } catch (error) {
+    console.error("CheckService error:", error);
+    setService(false);
+  }
+};
 
   
   const onPinChange = (e) => {

@@ -1,116 +1,137 @@
-import React from "react";
+"use client";
+import React, { useState, useEffect } from "react";
+import Link from "next/link";
 
-const hoodies = () => {
+const Hoodies = () => {
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+ // Hoodies page mein
+useEffect(() => {
+  const fetchProducts = async () => {
+    try {
+      // Specific category ke liye call
+      const response = await fetch("/api/getproducts?category=hoodies");
+      if (!response.ok)
+        throw new Error(`HTTP error! status: ${response.status}`);
+      const result = await response.json();
+      console.log(result);
+
+      if (result.success) {
+        setProducts(result.data);
+      } else {
+        setError(result.message);
+      }
+    } catch (err) {
+      setError("Failed to fetch hoodies");
+      console.error("Error:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchProducts();
+}, []);
+
+  if (loading)
+    return (
+      <div className="container mx-auto px-5 py-24 flex justify-center items-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900"></div>
+      </div>
+    );
+
+  if (error)
+    return (
+      <div className="container mx-auto px-5 py-24 text-center text-red-500">
+        Error: {error}
+      </div>
+    );
+
   return (
-    <div>
-      <section className="text-gray-600 body-font">
-        <div className="container px-5 py-24 mx-auto">
-          <div className="flex flex-wrap -m-4">
-           <div className="lg:w-1/5 md:w-1/2 p-4 w-full cursor-pointer shadow-lg m-4">
-              <a className="block relative rounded overflow-hidden">
-                <img
-                  alt="E-commerce"
-                  className="m-auto md:mx-0 h-[30vh] md:h-[36vh] block "
-                  src="https://m.media-amazon.com/images/I/81aLN3qVsdL._AC_SY550_.jpg"
-                />
-              </a>
+    <section className="text-gray-600 body-font">
+      <div className="container px-5 py-24 mx-auto">
+        <div className="flex flex-wrap -m-4 justify-center">
+          {products.map((product) => (
+            <div
+              key={product._id}
+              className="lg:w-1/5 md:w-1/2 p-4 w-full cursor-pointer shadow-lg m-4"
+            >
+              <Link href={`/product/${product.slug}`}>
+                <div className="block relative rounded overflow-hidden">
+                  <img
+                    alt={product.title}
+                    className="m-auto md:mx-0 h-[30vh] md:h-[36vh] block"
+                    src={product.img}
+                  />
+                </div>
+              </Link>
               <div className="mt-4">
                 <h3 className="text-gray-500 text-xs tracking-widest title-font mb-1">
-                  T-Shrit
+                  {product.category}
                 </h3>
                 <h2 className="text-gray-900 title-font text-lg font-medium">
-                  wear the code
+                  {product.title}
                 </h2>
-                <p className="mt-1">Rs.4999</p>
-                <p className="mt-1">S, M, L, XL,XXL</p>
-              </div>
-            </div>
-             <div className="lg:w-1/5 md:w-1/2 p-4 w-full cursor-pointer shadow-lg m-4">
-              <a className="block relative rounded overflow-hidden">
-                <img
-                  alt="E-commerce"
-                  className="m-auto md:mx-0 h-[30vh] md:h-[36vh] block "
-                  src="https://m.media-amazon.com/images/I/81aLN3qVsdL._AC_SY550_.jpg"
-                />
-              </a>
-              <div className="mt-4">
-                <h3 className="text-gray-500 text-xs tracking-widest title-font mb-1">
-                  T-Shrit
-                </h3>
-                <h2 className="text-gray-900 title-font text-lg font-medium">
-                  wear the code
-                </h2>
-                <p className="mt-1">Rs.4999</p>
-                <p className="mt-1">S, M, L, XL,XXL</p>
-              </div>
-            </div>
-             <div className="lg:w-1/5 md:w-1/2 p-4 w-full cursor-pointer shadow-lg m-4">
-              <a className="block relative rounded overflow-hidden">
-                <img
-                  alt="E-commerce"
-                  className="m-auto md:mx-0 h-[30vh] md:h-[36vh] block "
-                  src="https://m.media-amazon.com/images/I/81aLN3qVsdL._AC_SY550_.jpg"
-                />
-              </a>
-              <div className="mt-4">
-                <h3 className="text-gray-500 text-xs tracking-widest title-font mb-1">
-                  T-Shrit
-                </h3>
-                <h2 className="text-gray-900 title-font text-lg font-medium">
-                  wear the code
-                </h2>
-                <p className="mt-1">Rs.4999</p>
-                <p className="mt-1">S, M, L, XL,XXL</p>
-              </div>
-            </div>
-             <div className="lg:w-1/5 md:w-1/2 p-4 w-full cursor-pointer shadow-lg m-4">
-              <a className="block relative rounded overflow-hidden">
-                <img
-                  alt="E-commerce"
-                  className="m-auto md:mx-0 h-[30vh] md:h-[36vh] block "
-                  src="https://m.media-amazon.com/images/I/81aLN3qVsdL._AC_SY550_.jpg"
-                />
-              </a>
-              <div className="mt-4">
-                <h3 className="text-gray-500 text-xs tracking-widest title-font mb-1">
-                  T-Shrit
-                </h3>
-                <h2 className="text-gray-900 title-font text-lg font-medium">
-                  wear the code
-                </h2>
-                <p className="mt-1">Rs.4999</p>
-                <p className="mt-1">S, M, L, XL,XXL</p>
-              </div>
-            </div>
-             <div className="lg:w-1/5 md:w-1/2 p-4 w-full cursor-pointer shadow-lg m-4">
-              <a className="block relative rounded overflow-hidden">
-                <img
-                  alt="E-commerce"
-                  className="m-auto md:mx-0 h-[30vh] md:h-[36vh] block "
-                  src="https://m.media-amazon.com/images/I/81aLN3qVsdL._AC_SY550_.jpg"
-                />
-              </a>
-              <div className="mt-4">
-                <h3 className="text-gray-500 text-xs tracking-widest title-font mb-1">
-                  T-Shrit
-                </h3>
-                <h2 className="text-gray-900 title-font text-lg font-medium">
-                  wear the code
-                </h2>
-                <p className="mt-1">Rs.4999</p>
-                <p className="mt-1">S, M, L, XL,XXL</p>
-              </div>
-            </div>
-           
-            
-           
-          
+                <p className="mt-1">Rs. {product.price}</p>
 
+                {/* Sizes */}
+                <div className="mt-2">
+                  {product.size.includes("S") && (
+                    <span className="border border-gray-300 px-1 mx-1">S</span>
+                  )}
+                  {product.size.includes("M") && (
+                    <span className="border border-gray-300 px-1 mx-1">M</span>
+                  )}
+                  {product.size.includes("L") && (
+                    <span className="border border-gray-300 px-1 mx-1">L</span>
+                  )}
+                  {product.size.includes("XL") && (
+                    <span className="border border-gray-300 px-1 mx-1">XL</span>
+                  )}
+                  {product.size.includes("XXL") && (
+                    <span className="border border-gray-300 px-1 mx-1">
+                      XXL
+                    </span>
+                  )}
+                </div>
+
+                {/* Colors */}
+                <div className="mt-2 flex items-center">
+                  {product.color.includes("Red") && (
+                    <button className="border-2 border-gray-300 ml-1 bg-red-700 rounded-full w-6 h-6 focus:outline-none"></button>
+                  )}
+                  {product.color.includes("Blue") && (
+                    <button className="border-2 border-gray-300 ml-1 bg-blue-700 rounded-full w-6 h-6 focus:outline-none"></button>
+                  )}
+                  {product.color.includes("Green") && (
+                    <button className="border-2 border-gray-300 ml-1 bg-green-700 rounded-full w-6 h-6 focus:outline-none"></button>
+                  )}
+                  {product.color.includes("Black") && (
+                    <button className="border-2 border-gray-300 ml-1 bg-black rounded-full w-6 h-6 focus:outline-none"></button>
+                  )}
+                  {product.color.includes("Yellow") && (
+                    <button className="border-2 border-gray-300 ml-1 bg-yellow-700 rounded-full w-6 h-6 focus:outline-none"></button>
+                  )}
+                  {product.color.includes("Purple") && (
+                    <button className="border-2 border-gray-300 ml-1 bg-purple-700 rounded-full w-6 h-6 focus:outline-none"></button>
+                  )}
+                  {product.color.includes("Orange") && (
+                    <button className="border-2 border-gray-300 ml-1 bg-orange-700 rounded-full w-6 h-6 focus:outline-none"></button>
+                  )}
+                </div>
+              </div>
+            </div>
+          ))}
+            {products.length === 0 && !loading && (
+          <div className="container mx-auto px-5 py-24 text-center">
+            No hoodies found
           </div>
+        )}
         </div>
-      </section>
-    </div>
+      </div>
+    </section>
   );
 };
 
-export default hoodies;
+export default Hoodies;

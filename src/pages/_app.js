@@ -3,6 +3,8 @@ import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function App({ Component, pageProps }) {
   const [cart, setCart] = useState({});
@@ -87,7 +89,22 @@ export default function App({ Component, pageProps }) {
         subTotal={subTotal}
         {...pageProps}
       />
+      
       <Footer />
+      
+      {/* ✅ ToastContainer add kiya hai */}
+      <ToastContainer
+        position="bottom-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </>
   );
 }
