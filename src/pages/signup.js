@@ -3,10 +3,9 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router"; // ✅ Correct import
 import { toast } from 'react-toastify';
 
-const Signup = ({ user }) => { // ✅ _app.js se user receive karo
+const Signup = ({ user }) => { 
   const router = useRouter();
-  
-  // ✅ Correct redirect logic
+
   useEffect(() => {
     if (user) {
       router.push('/');
@@ -34,7 +33,6 @@ const Signup = ({ user }) => { // ✅ _app.js se user receive karo
     setLoading(true);
     setError("");
 
-    // Basic validation
     if (!formData.name || !formData.email || !formData.password) {
       setError("All fields are required");
       setLoading(false);
@@ -62,13 +60,10 @@ const Signup = ({ user }) => { // ✅ _app.js se user receive karo
         throw new Error(data.error || "Something went wrong");
       }
 
-      // Success toast message
       toast.success("Account created successfully! ", {
         position: "top-left",
-        autoClose: 3000,
+        autoClose: 1000,
       });
-      
-      // Redirect after 2 seconds
       setTimeout(() => {
         router.push("/login");
       }, 2000);
@@ -76,9 +71,8 @@ const Signup = ({ user }) => { // ✅ _app.js se user receive karo
     } catch (error) {
       console.error("Signup error:", error);
       setError(error.message);
-      // Error toast message
-      toast.error(`❌ ${error.message}`, {
-        position: "top-left", // ✅ Consistent position
+        toast.error(`❌ ${error.message}`, {
+        position: "top-left",
         autoClose: 4000,
       });
     } finally {

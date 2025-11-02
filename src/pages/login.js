@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/router';
 import { toast } from 'react-toastify';
 
-const Login = ({ loginUser, user }) => { // ✅ user bhi receive karo
+const Login = ({ loginUser, user }) => { 
   const router = useRouter();
   const [formData, setFormData] = useState({
     email: '',
@@ -14,7 +14,7 @@ const Login = ({ loginUser, user }) => { // ✅ user bhi receive karo
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
 
-  // ✅ CORRECT: user check karo, token nahi
+
   useEffect(() => {
     if (user) {
       router.push('/');
@@ -101,7 +101,7 @@ const Login = ({ loginUser, user }) => { // ✅ user bhi receive karo
 
       toast.success('Login successful!', {
         position: "top-left",
-        autoClose: 2000,
+        autoClose: 1000,
       });
 
       setFormData({ email: '', password: '' });
