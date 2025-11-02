@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/router';
 import { toast } from 'react-toastify';
 
-const Login = ({ loginUser }) => { // ✅ _app.js se loginUser function receive kiya
+const Login = ({ loginUser, user }) => { // ✅ user bhi receive karo
   const router = useRouter();
   const [formData, setFormData] = useState({
     email: '',
@@ -13,6 +13,13 @@ const Login = ({ loginUser }) => { // ✅ _app.js se loginUser function receive 
   const [error, setError] = useState('');
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
+
+  // ✅ CORRECT: user check karo, token nahi
+  useEffect(() => {
+    if (user) {
+      router.push('/');
+    }
+  }, [user, router]);
 
   useEffect(() => {
     setFormData({
@@ -92,7 +99,6 @@ const Login = ({ loginUser }) => { // ✅ _app.js se loginUser function receive 
         return;
       }
 
-      // ✅ SUCCESS CASE - _app.js ka loginUser function use kiya
       toast.success('Login successful!', {
         position: "top-left",
         autoClose: 2000,
@@ -100,10 +106,8 @@ const Login = ({ loginUser }) => { // ✅ _app.js se loginUser function receive 
 
       setFormData({ email: '', password: '' });
       
-      // ✅ Yahan pehle localStorage mein save karenge
       localStorage.setItem('user', JSON.stringify(data.data));
       
-      // ✅ Phir _app.js ka loginUser function call karenge
       if (loginUser) {
         loginUser(data.data);
       }

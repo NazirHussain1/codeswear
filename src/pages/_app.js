@@ -4,15 +4,30 @@ import Navbar from "@/components/Navbar";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { ToastContainer } from 'react-toastify';
+import LoadingBar from "react-top-loading-bar";
 import 'react-toastify/dist/ReactToastify.css';
 
 export default function App({ Component, pageProps }) {
   const [cart, setCart] = useState({});
   const [subTotal, setSubTotal] = useState(0);
-  const [user, setUser] = useState(null); // ✅ User state add kiya
+  const [user, setUser] = useState(null);
+  const [progress, setProgress] = useState(0);
   const router = useRouter();
 
   useEffect(() => {
+    // ✅ Correct LoadingBar events
+    router.events.on('routeChangeStart', () => {
+      setProgress(40);
+    });
+    
+    router.events.on('routeChangeComplete', () => { // ✅ routeChangeComplete use karo
+      setProgress(100);
+    });
+    
+    router.events.on('routeChangeError', () => { // ✅ Error case ke liye bhi
+      setProgress(100);
+    });
+
     console.log("I run on every render!");
     try {
       // Cart load karna
@@ -29,7 +44,20 @@ export default function App({ Component, pageProps }) {
       console.error(error);
       localStorage.clear();
     }
-  }, []);
+
+    // ✅ Cleanup function
+    return () => {
+      router.events.off('routeChangeStart', () => {
+        setProgress(40);
+      });
+      router.events.off('routeChangeComplete', () => {
+        setProgress(100);
+      });
+      router.events.off('routeChangeError', () => {
+        setProgress(100);
+      });
+    };
+  }, [router]);
 
   const saveCart = (myCart) => {
     localStorage.setItem("cart", JSON.stringify(myCart));
@@ -89,6 +117,12 @@ export default function App({ Component, pageProps }) {
 
   return (
     <>
+      <LoadingBar
+        color="#db2777"
+        waitingTime={400}
+        progress={progress}
+        onLoaderFinished={() => setProgress(0)}
+      />
       <Navbar 
         key={subTotal}
         cart={cart}
@@ -96,8 +130,8 @@ export default function App({ Component, pageProps }) {
         removeFromCart={removeFromCart}
         clearCart={clearCart}
         subTotal={subTotal}
-        user={user} // ✅ User pass kiya
-        logoutUser={logoutUser} // ✅ Logout function pass kiya
+        user={user}
+        logoutUser={logoutUser}
       />
       <Component
         cart={cart}
@@ -106,9 +140,9 @@ export default function App({ Component, pageProps }) {
         removeFromCart={removeFromCart}
         clearCart={clearCart}
         subTotal={subTotal}
-        user={user} // ✅ User pass kiya pages ko bhi
-        loginUser={loginUser} // ✅ Login function pass kiya
-        logoutUser={logoutUser} // ✅ Logout function pass kiya
+        user={user}
+        loginUser={loginUser}
+        logoutUser={logoutUser}
         {...pageProps}
       />
       
