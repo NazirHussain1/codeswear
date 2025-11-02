@@ -113,6 +113,7 @@ export default function App({ Component, pageProps }) {
   const logoutUser = () => {
     setUser(null);
     localStorage.removeItem('user');
+    router.push('/');
   };
 
   return (

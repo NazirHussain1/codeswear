@@ -1,53 +1,162 @@
-import React from 'react';
+import { useEffect, useState } from 'react';
+import { useRouter } from "next/router";
+import Link from "next/link";
 
-const order= () => {
-  return (
-    <div>
-        <section className="text-gray-600 body-font overflow-hidden">
-  <div className="container px-5 py-24 mx-auto">
-    <div className="lg:w-4/5 mx-auto flex flex-wrap">
-      <div className="lg:w-1/2 w-full lg:pr-10 lg:py-6 mb-6 lg:mb-0">
-        <h2 className="text-sm title-font text-gray-500 tracking-widest">CODES WEARS.COM</h2>
-        <h1 className="text-gray-900 text-3xl title-font font-medium mb-4">Order Id:#789676</h1>
-        <p className="leading-relaxed mb-4">Your order has been placed successfully</p>
-         
-        <div className="flex mb-4">
-          <a className="flex-grow text-center  py-2 text-lg px-1"> Item Description</a>
-          <a className="flex-grow text-center  py-2 text-lg px-1">Quantity</a>
-          <a className="flex-grow text-center py-2 text-lg px-1">Item total</a>
-        </div>
-        <div className="flex border-t border-gray-200 py-2">
-          <span className="text-gray-500">Wear the Code (Xl/Black)</span>
-          <span className="ml-auto text-gray-900">1</span>
-          <span className="ml-auto text-gray-900">Rs.5999</span>
+function Orders({ user }) {
+  const router = useRouter();
+  const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-        </div>
-        <div className="flex border-t border-gray-200 py-2">
-          <span className="text-gray-500">Wear the Code (Xl/Black)</span>
-          <span className="ml-auto text-gray-900">1</span>
-          <span className="ml-auto text-gray-900">Rs.5999</span>
+  useEffect(() => {
+    if (!user) {
+      router.push("/login");
+      return;
+    }
+    fetchOrders();
+  }, [user, router]);
 
-        </div>
-         <div className="flex border-t border-gray-200 py-2">
-          <span className="text-gray-500">Wear the Code (Xl/Black)</span>
-          <span className="ml-auto text-gray-900">1</span>
-          <span className="ml-auto text-gray-900">Rs.5999</span>
+  const fetchOrders = async () => {
+    try {
+      const response = await fetch('/api/myorders', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ userId: user._id }),
+      });
 
-        </div>
-        <div className="flex flex-col">
-          <span className="title-font font-medium text-2xl text-gray-900"> SubTotal:Rs.11958</span>
-        <div className='my-4'>
-            <button className="flex mx-0 text-white bg-pink-500 border-0 py-2 px-6 focus:outline-none hover:bg-pink-600 rounded">TrackOrder</button> 
-        </div>  
-         
-        </div>
+      const data = await response.json();
+
+      if (data.success) {
+        setOrders(data.orders);
+      } else {
+        console.error('Failed to fetch orders');
+      }
+    } catch (error) {
+      console.error('Error fetching orders:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-pink-600"></div>
       </div>
-      <img alt="ecommerce" className="lg:w-1/2 w-full lg:h-auto h-64 object-cover object-center rounded" src="https://dummyimage.com/400x400"/>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-gray-50 py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center">
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">My Orders</h1>
+          <p className="text-gray-600 mb-8">View your order history and track your purchases</p>
+        </div>
+
+        {orders.length === 0 ? (
+          <div className="text-center py-12">
+            <div className="bg-white rounded-lg shadow-sm p-8 max-w-md mx-auto">
+              <svg className="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+              </svg>
+              <h3 className="mt-4 text-lg font-medium text-gray-900">No orders found</h3>
+              <p className="mt-2 text-sm text-gray-500">You have not placed any orders yet.</p>
+              <div className="mt-6">
+                <Link 
+                  href="/"
+                  className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-pink-600 hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
+                >
+                  Start Shopping
+                </Link>
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div className="bg-white shadow-sm rounded-lg overflow-hidden">
+            <div className="overflow-x-auto">
+              <table className="min-w-full divide-y divide-gray-200">
+                <thead className="bg-gray-50">
+                  <tr>
+                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Order ID
+                    </th>
+                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Date
+                    </th>
+                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Products
+                    </th>
+                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Amount
+                    </th>
+                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Status
+                    </th>
+                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Address
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="bg-white divide-y divide-gray-200">
+                  {orders.map((order) => (
+                    <tr key={order._id} className="hover:bg-gray-50">
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="text-sm font-medium text-gray-900">
+                          #{order._id.slice(-6).toUpperCase()}
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="text-sm text-gray-900">
+                          {new Date(order.createdAt).toLocaleDateString()}
+                        </div>
+                        <div className="text-sm text-gray-500">
+                          {new Date(order.createdAt).toLocaleTimeString()}
+                        </div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="text-sm text-gray-900">
+                          {order.products.length} item(s)
+                        </div>
+                        <div className="text-sm text-gray-500">
+                          {order.products.map((product, index) => (
+                            <div key={index}>
+                              {product.quantity}x {product.productId}
+                            </div>
+                          ))}
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="text-sm font-medium text-gray-900">
+                          Rs. {order.amount}
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                          order.status === 'Delivered' ? 'bg-green-100 text-green-800' :
+                          order.status === 'Shipped' ? 'bg-blue-100 text-blue-800' :
+                          order.status === 'Processing' ? 'bg-yellow-100 text-yellow-800' :
+                          'bg-gray-100 text-gray-800'
+                        }`}>
+                          {order.status}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="text-sm text-gray-900 max-w-xs truncate">
+                          {order.address}
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
-  </div>
-</section>
-    </div>
-  )
+  );
 }
 
-export default order;
+export default Orders;
