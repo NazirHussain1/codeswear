@@ -9,15 +9,21 @@ import 'react-toastify/dist/ReactToastify.css';
 export default function App({ Component, pageProps }) {
   const [cart, setCart] = useState({});
   const [subTotal, setSubTotal] = useState(0);
-  const router=useRouter();
+  const [user, setUser] = useState(null); // ✅ User state add kiya
+  const router = useRouter();
 
   useEffect(() => {
     console.log("I run on every render!");
     try {
+      // Cart load karna
       if (localStorage.getItem("cart")) {
         setCart(JSON.parse(localStorage.getItem("cart")));
         saveCart(JSON.parse(localStorage.getItem("cart")));
-
+      }
+      
+      // User load karna
+      if (localStorage.getItem("user")) {
+        setUser(JSON.parse(localStorage.getItem("user")));
       }
     } catch (error) {
       console.error(error);
@@ -35,23 +41,22 @@ export default function App({ Component, pageProps }) {
     setSubTotal(subt);
   };
 
-  const addToCart = (itemCode, qty,price,name, size, variant) => {
+  const addToCart = (itemCode, qty, price, name, size, variant) => {
     let newCart = { ...cart };
     if (itemCode in newCart) {
       newCart[itemCode].qty += qty;
     } else {
-      newCart[itemCode] = { qty: 1,  price, name, size, variant};
+      newCart[itemCode] = { qty: 1, price, name, size, variant };
     }
     setCart(newCart);
     saveCart(newCart);
   };
   
-  const buyNow = (itemCode, qty,price,name, size, variant) => {
-    let newCart = {slug:{qty: 1,  price, name, size, variant}};
-   
+  const buyNow = (itemCode, qty, price, name, size, variant) => {
+    let newCart = { slug: { qty: 1, price, name, size, variant } };
     setCart(newCart);
     saveCart(newCart);
-    router.push('/checkout')
+    router.push('/checkout');
   };
 
   const clearCart = () => {
@@ -71,14 +76,28 @@ export default function App({ Component, pageProps }) {
     saveCart(newCart);
   };
 
+  // ✅ User login/logout functions
+  const loginUser = (userData) => {
+    setUser(userData);
+    localStorage.setItem('user', JSON.stringify(userData));
+  };
+
+  const logoutUser = () => {
+    setUser(null);
+    localStorage.removeItem('user');
+  };
+
   return (
     <>
-      <Navbar key={subTotal}
+      <Navbar 
+        key={subTotal}
         cart={cart}
         addToCart={addToCart}
         removeFromCart={removeFromCart}
         clearCart={clearCart}
         subTotal={subTotal}
+        user={user} // ✅ User pass kiya
+        logoutUser={logoutUser} // ✅ Logout function pass kiya
       />
       <Component
         cart={cart}
@@ -87,12 +106,14 @@ export default function App({ Component, pageProps }) {
         removeFromCart={removeFromCart}
         clearCart={clearCart}
         subTotal={subTotal}
+        user={user} // ✅ User pass kiya pages ko bhi
+        loginUser={loginUser} // ✅ Login function pass kiya
+        logoutUser={logoutUser} // ✅ Logout function pass kiya
         {...pageProps}
       />
       
       <Footer />
       
-      {/* ✅ ToastContainer add kiya hai */}
       <ToastContainer
         position="bottom-right"
         autoClose={3000}

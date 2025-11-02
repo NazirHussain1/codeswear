@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/router';
 import { toast } from 'react-toastify';
 
-const Login = () => {
+const Login = ({ loginUser }) => { // ✅ _app.js se loginUser function receive kiya
   const router = useRouter();
   const [formData, setFormData] = useState({
     email: '',
@@ -14,7 +14,6 @@ const Login = () => {
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
 
- 
   useEffect(() => {
     setFormData({
       email: '',
@@ -22,14 +21,12 @@ const Login = () => {
     });
     setError('');
 
-    
     setTimeout(() => {
       if (emailRef.current) emailRef.current.value = '';
       if (passwordRef.current) passwordRef.current.value = '';
     }, 100);
   }, []);
 
- 
   useEffect(() => {
     const checkAndClearAutoFill = () => {
       setTimeout(() => {
@@ -89,18 +86,27 @@ const Login = () => {
         setError(errorMessage);
         toast.error(`❌ ${errorMessage}`, {
           position: "top-left", 
-          autoClose:2000,
+          autoClose: 2000,
         });
         setLoading(false);
         return;
       }
+
+      // ✅ SUCCESS CASE - _app.js ka loginUser function use kiya
       toast.success('Login successful!', {
         position: "top-left",
         autoClose: 2000,
       });
 
       setFormData({ email: '', password: '' });
+      
+      // ✅ Yahan pehle localStorage mein save karenge
       localStorage.setItem('user', JSON.stringify(data.data));
+      
+      // ✅ Phir _app.js ka loginUser function call karenge
+      if (loginUser) {
+        loginUser(data.data);
+      }
       
       setTimeout(() => {
         router.push('/');
@@ -108,7 +114,10 @@ const Login = () => {
       
     } catch (error) {
       setError('Network error. Please try again.');
-      toast.error('❌ Network error. Please try again.');
+      toast.error('❌ Network error. Please try again.', {
+        position: "top-left",
+        autoClose: 2000,
+      });
     } finally {
       setLoading(false);
     }
@@ -135,7 +144,6 @@ const Login = () => {
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        
           {error && (
             <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
               <div className="flex">
