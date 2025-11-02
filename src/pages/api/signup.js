@@ -46,7 +46,7 @@ export default async function handler(req, res) {
     // Hash password
     const hashedPassword = await bcrypt.hash(password, 12);
 
-    // Create user
+   
     const user = new User({
       name: name.trim(),
       email: email.toLowerCase().trim(),
@@ -73,7 +73,6 @@ export default async function handler(req, res) {
   } catch (error) {
     console.error("Signup error:", error);
     
-    // MongoDB duplicate key error
     if (error.code === 11000) {
       return res.status(409).json({
         success: false,
