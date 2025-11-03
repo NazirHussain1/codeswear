@@ -23,52 +23,54 @@ const Checkout = ({ cart, addToCart, removeFromCart, subTotal, clearCart }) => {
   };
 
   // JazzCash Payment Function
-  const initiateJazzCashPayment = async () => {
-    // Form validation
-    if (!userDetails.name || !userDetails.email || !userDetails.phone || !userDetails.address || !userDetails.city || !userDetails.state || !userDetails.pinCode) {
-      alert('Please fill all required fields');
-      return;
-    }
+  // JazzCash Payment Function - UPDATED
+const initiateJazzCashPayment = async () => {
+  // Form validation
+  if (!userDetails.name || !userDetails.email || !userDetails.phone || !userDetails.address) {
+    alert('Please fill all required fields');
+    return;
+  }
 
-    if (subTotal < 1) {
-      alert('Cart cannot be empty');
-      return;
-    }
+  if (subTotal < 1) {
+    alert('Cart cannot be empty');
+    return;
+  }
 
-    setLoading(true);
+  setLoading(true);
 
-    try {
-      console.log('Initiating JazzCash payment for amount:', subTotal);
-      
-      // JazzCash pre-transaction API call
-      const response = await fetch('/api/pretransaction', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          amount: subTotal,
-          email: userDetails.email,
-          phone: userDetails.phone
-        }),
-      });
+  try {
+    console.log('Initiating JazzCash payment for amount:', subTotal);
+    
+    // JazzCash pre-transaction API call - NAME FIELD ADDED
+    const response = await fetch('/api/pretransaction', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        amount: subTotal,
+        email: userDetails.email,
+        phone: userDetails.phone,
+        name: userDetails.name // ADD THIS LINE
+      }),
+    });
 
-      const data = await response.json();
-      console.log('Pre-transaction response:', data);
+    const data = await response.json();
+    console.log('Pre-transaction response:', data);
 
-      if (data.success) {
-        // JazzCash form submit karein
-        submitToJazzCash(data.payload, data.jazzcashUrl);
-      } else {
-        alert(data.message || 'Payment initialization failed');
-        setLoading(false);
-      }
-    } catch (error) {
-      console.error('Payment error:', error);
-      alert('Payment failed. Please try again.');
+    if (data.success) {
+      // JazzCash form submit karein
+      submitToJazzCash(data.payload, data.jazzcashUrl);
+    } else {
+      alert(data.message || 'Payment initialization failed');
       setLoading(false);
     }
-  };
+  } catch (error) {
+    console.error('Payment error:', error);
+    alert('Payment failed. Please try again.');
+    setLoading(false);
+  }
+};
 
   // JazzCash ko form submit karein
   const submitToJazzCash = (payload, jazzcashUrl) => {
