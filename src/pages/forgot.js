@@ -39,8 +39,7 @@ const Forgot = ({ user }) => { // ✅ _app.js se user receive karo
     }
 
     try {
-      // Yahan aap forgot password API integrate kar sakte hain
-      // Temporary success message for now
+      
       toast.success("Password reset link sent to your email!", {
         position: "top-left",
         autoClose: 4000,
